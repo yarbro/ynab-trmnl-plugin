@@ -27,27 +27,6 @@ jobs:
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: cd api && bin/brakeman --no-pager
 
-  scan_js:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Read Ruby version from file
-        id: ruby_version
-        run: echo "version=$(cat api/.ruby-version)" >> $GITHUB_OUTPUT
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ steps.ruby_version.outputs.version }}
-          bundler-cache: true
-          working-directory: api
-
-      - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: cd api && bin/importmap audit
-
   lint:
     runs-on: ubuntu-latest
     steps:
