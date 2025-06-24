@@ -2,7 +2,7 @@ import { getNetWorth } from "@/lib/netWorth";
 import { getUnapprovedCount } from "@/lib/unapprovedTransactions";
 import { getCategorySummaries } from "@/lib/categorySummary";
 
-type SummaryResult = {
+export type SummaryResult = {
   net_worth: string;
   unapproved_count: number;
   categories: Record<string, {

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { buildSummary } from "@/lib/summaryBuilder";
+import { buildSummary, type SummaryResult } from "@/lib/summaryBuilder";
 
-const cache: Record<string, { timestamp: number; data: any }> = {};
+const cache: Record<string, { timestamp: number; data: SummaryResult }> = {};
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -26,12 +26,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const summary = await buildSummary(budget_id, categorySlugs);
-
     // Cache and return
     cache[cacheKey] = { timestamp: now, data: summary };
     return res.status(200).json(summary);
-  } catch (err: any) {
-    console.error("Summary error:", err);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error("Summary error:", err.message);
+    } else {
+      console.error("Unknown error:", err);
+    }
     return res.status(500).json({ error: "An unexpected error occurred." });
   }
 }
