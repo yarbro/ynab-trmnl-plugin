@@ -28,5 +28,5 @@ custom_fields:
   - keyname: categories
     field_type: string
     name: Categories
-    description: Comma seperated list of Category names in priority order. Smaller views allow a maximum of three.
+    description: Comma separated list of Category names in priority order. Smaller views allow a maximum of three.
     placeholder: groceries,dining out,entertainment
