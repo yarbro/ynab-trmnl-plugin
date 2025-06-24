@@ -51,31 +51,3 @@ nextjs_api/.vercel/
 
 # SSL
 *.pem
-
-#----------------------------------------
-# Rails
-#----------------------------------------
-
-# Bundler config
-rails_api/.bundle
-
-# Rails logs and tempfiles
-rails_api/log/*
-rails_api/tmp/*
-!rails_api/log/.keep
-!rails_api/tmp/.keep
-
-# PID files
-rails_api/tmp/pids/*
-!rails_api/tmp/pids/
-!rails_api/tmp/pids/.keep
-
-# Active Storage and SQLite data
-rails_api/storage/*
-!rails_api/storage/.keep
-rails_api/tmp/storage/*
-!rails_api/tmp/storage/
-!rails_api/tmp/storage/.keep
-
-# Rails credentials
-rails_api/config/master.key
