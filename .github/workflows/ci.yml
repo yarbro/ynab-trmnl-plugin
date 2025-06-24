@@ -15,17 +15,17 @@ jobs:
 
       - name: Read Ruby version from file
         id: ruby_version
-        run: echo "version=$(cat api/.ruby-version)" >> $GITHUB_OUTPUT
+        run: echo "version=$(cat rails_api/.ruby-version)" >> $GITHUB_OUTPUT
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ steps.ruby_version.outputs.version }}
           bundler-cache: true
-          working-directory: api
+          working-directory: rails_api
 
       - name: Scan for common Rails security vulnerabilities using static analysis
-        run: cd api && bin/brakeman --no-pager
+        run: cd rails_api && bin/brakeman --no-pager
 
   lint:
     runs-on: ubuntu-latest
@@ -35,17 +35,17 @@ jobs:
 
       - name: Read Ruby version from file
         id: ruby_version
-        run: echo "version=$(cat api/.ruby-version)" >> $GITHUB_OUTPUT
+        run: echo "version=$(cat rails_api/.ruby-version)" >> $GITHUB_OUTPUT
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ steps.ruby_version.outputs.version }}
           bundler-cache: true
-          working-directory: api
+          working-directory: rails_api
 
       - name: Lint code for consistent style
-        run: cd api && bin/rubocop -f github
+        run: cd rails_api && bin/rubocop -f github
 
   test:
     runs-on: ubuntu-latest
@@ -65,17 +65,17 @@ jobs:
 
       - name: Read Ruby version from file
         id: ruby_version
-        run: echo "version=$(cat api/.ruby-version)" >> $GITHUB_OUTPUT
+        run: echo "version=$(cat rails_api/.ruby-version)" >> $GITHUB_OUTPUT
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ steps.ruby_version.outputs.version }}
           bundler-cache: true
-          working-directory: api
+          working-directory: rails_api
 
       - name: Run tests
-        working-directory: api
+        working-directory: rails_api
         env:
           RAILS_ENV: test
           # REDIS_URL: redis://localhost:6379/0
@@ -88,5 +88,5 @@ jobs:
         if: failure()
         with:
           name: screenshots
-          path: ${{ github.workspace }}/api/tmp/screenshots
+          path: ${{ github.workspace }}/rails_api/tmp/screenshots
           if-no-files-found: ignore

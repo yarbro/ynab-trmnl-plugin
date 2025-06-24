@@ -5,31 +5,31 @@
 # `$XDG_CONFIG_HOME/git/ignore` or `~/.config/git/ignore`
 
 # Ignore bundler config.
-api/.bundle
+rails_api/.bundle
 
 # Ignore all environment files (except templates).
-api/.env*
-!api/.env*.erb
+rails_api/.env*
+!rails_api/.env*.erb
 
 # Ignore all logfiles and tempfiles.
-api/log/*
-api/tmp/*
-!api/log/.keep
-!api/tmp/.keep
+rails_api/log/*
+rails_api/tmp/*
+!rails_api/log/.keep
+!rails_api/tmp/.keep
 
 # Ignore pidfiles, but keep the directory.
-api/tmp/pids/*
-!api/tmp/pids/
-!api/tmp/pids/.keep
+rails_api/tmp/pids/*
+!rails_api/tmp/pids/
+!rails_api/tmp/pids/.keep
 
 # Ignore storage (uploaded files in development and any SQLite databases).
-api/storage/*
-!api/storage/.keep
-api/tmp/storage/*
-!api/tmp/storage/
-!api/tmp/storage/.keep
+rails_api/storage/*
+!rails_api/storage/.keep
+rails_api/tmp/storage/*
+!rails_api/tmp/storage/
+!rails_api/tmp/storage/.keep
 
 # Ignore master key for decrypting credentials and more.
-api/config/master.key
+rails_api/config/master.key
 # Ignore system files.
 .DS_Store

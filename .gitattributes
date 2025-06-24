@@ -1,14 +1,14 @@
 # See https://git-scm.com/docs/gitattributes for more about git attribute files.
 
 # Mark Ruby files as the main language
-api/**/* linguist-language=Ruby
+rails_api/**/* linguist-language=Ruby
 
 # Treat Liquid templates as data, not source code
 views/**/* linguist-detectable=false
 
 # Mark any vendored files as vendored
-api/vendor/* linguist-vendored
+rails_api/vendor/* linguist-vendored
 
 # Use proper diff for encrypted credentials
-api/config/credentials/*.yml.enc diff=rails_credentials
-api/config/credentials.yml.enc diff=rails_credentials
+rails_api/config/credentials/*.yml.enc diff=rails_credentials
+rails_api/config/credentials.yml.enc diff=rails_credentials
