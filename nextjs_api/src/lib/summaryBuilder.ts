@@ -1,10 +1,10 @@
 import { getNetWorth } from "@/lib/netWorth";
-import { getUncategorizedCount } from "@/lib/uncategorizedTransactions";
+import { getUnapprovedCount } from "@/lib/unapprovedTransactions";
 import { getCategorySummaries } from "@/lib/categorySummary";
 
 type SummaryResult = {
   net_worth: string;
-  uncategorized_count: number;
+  unapproved_count: number;
   categories: Record<string, {
     budgeted: string;
     activity: string;
@@ -13,15 +13,15 @@ type SummaryResult = {
 };
 
 export async function buildSummary(budgetId: string, categorySlugs: string[]): Promise<SummaryResult> {
-  const [netWorth, uncategorizedCount, categorySummaries] = await Promise.all([
+  const [netWorth, unapprovedCount, categorySummaries] = await Promise.all([
     getNetWorth(budgetId),
-    getUncategorizedCount(budgetId),
+    getUnapprovedCount(budgetId),
     getCategorySummaries(budgetId, categorySlugs),
   ]);
 
   return {
     net_worth: netWorth,
-    uncategorized_count: uncategorizedCount,
+    unapproved_count: unapprovedCount,
     categories: categorySummaries,
   };
 }

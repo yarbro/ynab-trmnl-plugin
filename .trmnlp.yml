@@ -1,0 +1,8 @@
+watch:
+  - src
+  - .trmnlp.yml
+
+custom_fields: {
+  budget_id: "{{ env.BUDGET_ID }}",
+  categories: "{{ env.CATEGORIES }}"
+}

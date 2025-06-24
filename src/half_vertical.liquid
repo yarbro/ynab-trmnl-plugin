@@ -1,0 +1,66 @@
+<div class="layout layout--col gap--space-between">
+  <div class="grid">
+    <div class="row">
+      <div class="grid">
+        <div class="item col--span-1">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--small value--tnums" data-value-format="true" data-value-fit="true">{{ net_worth }}</span>
+            <span class="label">Net Worth</span>
+          </div>
+        </div>
+
+        <div class="item col--span-1">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--small value--tnums" data-value-format="true" data-value-fit="true">{{ unapproved_count }}</span>
+            <span class="label">Unapproved</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="row">
+      <div class="item">
+        <div class="meta"></div>
+        <table class="table">
+          <tbody>
+            {% for pair in categories %}
+              {% assign name = pair[0] %}
+              {% assign data = pair[1] %}
+              {% assign is_negative = data.available | slice: 0, 1 %}
+
+              <tr>
+                <td>
+                  <span class="title title--small" style="display: inline;">{{ name }}</span>
+                  {% if is_negative == "-" %}
+                    <span
+                      class="label label--small label--inverted ml--2"
+                      style="display: inline-block; vertical-align: middle;"
+                    >
+                      Overspent
+                    </span>
+                  {% endif %}
+                </td>
+
+                <td class="text--right">
+                  <span class="value value--xsmall value--tnums">
+                    {{ data.available }}
+                  </span>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="/images/plugins/trmnl--render.svg" />
+  <span class="title">YNAB Summary</span>
+  <span class="instance">Our Budget</span>
+</div>

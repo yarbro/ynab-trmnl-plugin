@@ -1,0 +1,32 @@
+#
+# Changes to this file will be overwritten by `trmnlp pull`.
+#
+# Docs: https://help.usetrmnl.com/en/articles/10542599-importing-and-exporting-private-plugins#h_581fb988f0
+#
+---
+# required:
+name: YNAB
+strategy: polling
+refresh_interval: 60
+
+# polling strategy settings:
+polling_url: http://localhost:3000/api/summary?budget_id={{budget_id}}&categories={{categories}}
+polling_headers: ''
+polling_verb: GET
+
+# generic options:
+no_screen_padding: 'no'
+dark_mode: 'no'
+
+# custom plugin form fields:
+custom_fields:
+  - keyname: budget_id
+    field_type: string
+    name: Budget ID
+    description: YNAB ID for your budget
+    placeholder: xxxxxxxxxxxxxxxxxxxxxxxxxxx
+  - keyname: categories
+    field_type: string
+    name: Categories
+    description: Comma seperated list of Category names in priority order. Smaller views allow a maximum of three.
+    placeholder: groceries,dining out,entertainment
