@@ -1,4 +1,4 @@
-import { getYnabClient } from "@/lib/ynabClient";
+import * as ynab from "ynab";
 import { formatMoney } from "@/lib/moneyFormatter";
 import { Category } from "ynab";
 
@@ -9,11 +9,10 @@ type CategorySummary = {
 };
 
 export async function getCategorySummaries(
+  ynab: ynab.API,
   budgetId: string,
   slugs: string[]
 ): Promise<Record<string, CategorySummary>> {
-  const ynab = getYnabClient();
-
   const month = new Date().toISOString().slice(0, 7);
   const categoriesResponse = await ynab.categories.getCategories(budgetId);
   const allCategories: Category[] = categoriesResponse.data.category_groups.flatMap(

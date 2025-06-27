@@ -1,3 +1,4 @@
+import { getYnabClient } from "@/lib/ynabClient";
 import { getBudgetName } from "@/lib/budgetName";
 import { getNetWorth } from "@/lib/netWorth";
 import { getUnapprovedCount } from "@/lib/unapprovedTransactions";
@@ -14,12 +15,14 @@ export type SummaryResult = {
   }>;
 };
 
-export async function buildSummary(budgetId: string, categorySlugs: string[]): Promise<SummaryResult> {
+export async function buildSummary(token: string, budgetId: string, categorySlugs: string[]): Promise<SummaryResult> {
+  const ynab = getYnabClient(token);
+
   const [budgetName, netWorth, unapprovedCount, categorySummaries] = await Promise.all([
-    getBudgetName(budgetId),
-    getNetWorth(budgetId),
-    getUnapprovedCount(budgetId),
-    getCategorySummaries(budgetId, categorySlugs),
+    getBudgetName(ynab, budgetId),
+    getNetWorth(ynab, budgetId),
+    getUnapprovedCount(ynab, budgetId),
+    getCategorySummaries(ynab, budgetId, categorySlugs),
   ]);
 
   return {

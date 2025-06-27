@@ -10,8 +10,8 @@ strategy: polling
 refresh_interval: 60
 
 # polling strategy settings:
-polling_url: http://localhost:3000/api/summary?budget_id={{budget_id}}&categories={{categories}}
-polling_headers: ''
+polling_url: http://localhost:3000/api/summary?budget_id={{ budget_id }}&categories={{ categories }}
+polling_headers: authorization=bearer {{ api_key }}
 polling_verb: GET
 
 # generic options:
@@ -20,6 +20,10 @@ dark_mode: 'no'
 
 # custom plugin form fields:
 custom_fields:
+  - keyname: api_key
+    field_type: string
+    name: API Key
+    description: Your YNAB personal access token key.
   - keyname: budget_id
     field_type: string
     name: Budget ID

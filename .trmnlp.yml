@@ -3,6 +3,7 @@ watch:
   - .trmnlp.yml
 
 custom_fields: {
+  api_key: "{{ env.API_KEY }}",
   budget_id: "{{ env.BUDGET_ID }}",
   categories: "{{ env.CATEGORIES }}"
 }

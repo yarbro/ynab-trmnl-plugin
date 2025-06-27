@@ -1,9 +1,7 @@
+import * as ynab from "ynab";
 import { formatMoney } from "@/lib/moneyFormatter";
-import { getYnabClient } from "@/lib/ynabClient";
 
-export async function getNetWorth(budgetId: string): Promise<string> {
-  const ynab = getYnabClient();
-
+export async function getNetWorth(ynab: ynab.API, budgetId: string): Promise<string> {
   const accountsResponse = await ynab.accounts.getAccounts(budgetId);
   const accounts = accountsResponse.data.accounts ?? [];
 

@@ -8,25 +8,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { budget_id, categories } = req.query;
 
-    // Validate required query param
+    // Extract API token from Authorization header
+    const authHeader = req.headers["authorization"];
+    const token = typeof authHeader === "string" && authHeader.toLowerCase().startsWith("bearer ")
+      ? authHeader.slice(7).trim()
+      : null;
+
+    if (!token) {
+      return res.status(401).json({ error: "Missing or invalid Authorization header." });
+    }
+
     if (!budget_id || typeof budget_id !== "string") {
       return res.status(400).json({ error: "Missing or invalid 'budget_id' param." });
     }
 
-    // Parse optional categories param (e.g., ?categories=groceries,dining%20out)
     const categorySlugs = typeof categories === "string"
       ? categories.split(",").map((s) => s.trim())
       : [];
 
-    const cacheKey = `${budget_id}:${categorySlugs.join(",")}`;
+    const cacheKey = `${token}:${budget_id}:${categorySlugs.join(",")}`;
     const now = Date.now();
 
     if (cache[cacheKey] && now - cache[cacheKey].timestamp < CACHE_DURATION) {
       return res.status(200).json(cache[cacheKey].data);
     }
 
-    const summary = await buildSummary(budget_id, categorySlugs);
-    // Cache and return
+    const summary = await buildSummary(token, budget_id, categorySlugs);
+
     cache[cacheKey] = { timestamp: now, data: summary };
     return res.status(200).json(summary);
   } catch (err: unknown) {

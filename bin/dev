@@ -8,8 +8,11 @@ if [ -f "$ENV_FILE" ]; then
   while IFS='=' read -r key value; do
     if [[ -n "$key" && "$key" != \#* ]]; then
       export "$key=$value"
+      echo "Loaded: $key=$value"
     fi
   done < "$ENV_FILE"
+else
+  echo "No .env file found at $ENV_FILE"
 fi
 
 if command -v trmnlp &> /dev/null
