@@ -12,14 +12,14 @@ export async function getCategorySummaries(
   ynab: ynab.API,
   budgetId: string,
   slugs: string[]
-): Promise<Record<string, CategorySummary>> {
+): Promise<Array<[string, CategorySummary]>> {
   const month = new Date().toISOString().slice(0, 7);
   const categoriesResponse = await ynab.categories.getCategories(budgetId);
   const allCategories: Category[] = categoriesResponse.data.category_groups.flatMap(
     (group) => group.categories ?? []
   );
 
-  const result: Record<string, CategorySummary> = {};
+  const result: Array<[string, CategorySummary]> = [];
 
   for (const slug of slugs) {
     const category = allCategories.find(
@@ -35,11 +35,14 @@ export async function getCategorySummaries(
     );
 
     const data = monthData.data.category;
-    result[category.name] = {
-      budgeted: formatMoney(data.budgeted),
-      activity: formatMoney(data.activity),
-      available: formatMoney(data.balance),
-    };
+    result.push([
+      category.name,
+      {
+        budgeted: formatMoney(data.budgeted),
+        activity: formatMoney(data.activity),
+        available: formatMoney(data.balance),
+      },
+    ]);
   }
 
   return result;
