@@ -8,11 +8,11 @@ export type SummaryResult = {
   budget_name: string;
   net_worth: string;
   unapproved_count: number;
-  categories: Record<string, {
+  categories: Array<[string, {
     budgeted: string;
     activity: string;
     available: string;
-  }>;
+  }]>;
 };
 
 export async function buildSummary(token: string, budgetId: string, categorySlugs: string[]): Promise<SummaryResult> {
