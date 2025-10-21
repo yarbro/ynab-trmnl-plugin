@@ -1,40 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# YNAB TRMNL API
 
-## Getting Started
+Next.js API that fetches YNAB budget data and formats it for TRMNL.
 
-First, run the development server:
+## Endpoint
 
+### `GET /api/summary`
+
+**Query Parameters:**
+- `budget_id` (required) - YNAB budget ID
+- `categories` (required) - Comma-separated category names
+
+**Headers:**
+- `Authorization: Bearer {YNAB_API_TOKEN}`
+
+**Example:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  "https://your-api.vercel.app/api/summary?budget_id=xxx&categories=Groceries,Gas"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Response:**
+```json
+{
+  "budget_name": "My Budget",
+  "net_worth": "$12,345.67",
+  "unapproved_count": 5,
+  "categories": [
+    ["Groceries", {
+      "budgeted": "$500.00",
+      "activity": "-$234.56",
+      "available": "$265.44"
+    }]
+  ]
+}
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Local Development
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+npm install
+npm run dev
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Deploy to Vercel:
+```bash
+vercel
+```
 
-## Learn More
+Or deploy to your preferred platform.
 
-To learn more about Next.js, take a look at the following resources:
+## Caching
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+Responses are cached in-memory for 10 minutes per unique combination of:
+- API token
+- Budget ID
+- Category list
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+```
+src/
+├── lib/
+│   ├── budgetName.ts              # Fetch budget name
+│   ├── categorySummary.ts         # Fetch category balances
+│   ├── moneyFormatter.ts          # Format YNAB milliunits
+│   ├── netWorth.ts                # Calculate net worth
+│   ├── summaryBuilder.ts          # Orchestrate data fetching
+│   ├── unapprovedTransactions.ts  # Number of unapproved transactions
+│   └── ynabClient.ts              # YNAB API client
+└── pages/api/
+    └── summary.ts                 # Main endpoint
+```
